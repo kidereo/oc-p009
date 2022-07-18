@@ -4,6 +4,9 @@
 ## Path 
 Développeur d'application - JavaScript React
 
+## Bug / Fix summary 
+1. Bug report - Bills: Missing sorting function. Fix: Added `orderBillsByDate()` in `./src/containers/Bills.js` to apply to data in `./src/views/BillsUI.js`.
+2. Bug report - Login: Erroneous copy/paste of `e.target.querySelector()` inside `handleSubmitAdmin()` function. Fix: Changed selectors to `input[data-testid="admin-email-input"]` and `input[data-testid="admin-password-input"]`. 
 ## Comment lancer l'application en local ?
 
 ### étape 1 - Lancer le backend :
