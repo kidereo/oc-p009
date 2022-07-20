@@ -69,8 +69,10 @@ export function orderBillsByDate(bills) {
     return [...bills].sort(function (b1, b2) {
         const d1 = new Date(b1.date);
         const d2 = new Date(b2.date);
-
-        if (d1 <= d2) return 1;
-        if (d1 > d2) return -1;
+        if (d1 <= d2) {
+            return 1;
+        } else {
+            return -1;
+        }
     });
 }

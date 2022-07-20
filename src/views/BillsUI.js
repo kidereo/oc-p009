@@ -1,12 +1,12 @@
 import VerticalLayout from './VerticalLayout.js'
 import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
-import { orderBillsByDate } from "../containers/Bills.js";
+import {orderBillsByDate} from "../containers/Bills.js";
 
 import Actions from './Actions.js'
 
 const row = (bill) => {
-  return (`
+    return (`
     <tr>
       <td>${bill.type}</td>
       <td>${bill.name}</td>
@@ -18,15 +18,23 @@ const row = (bill) => {
       </td>
     </tr>
     `)
-  }
-
-const rows = (data) => {
-  return (data && data.length) ? orderBillsByDate(data).map(bill => row(bill)).join("") : ""
 }
 
-export default ({ data: bills, loading, error }) => {
-  
-  const modal = () => (`
+const rows = (data) => {
+    return (data && data.length) ? orderBillsByDate(data).map(bill => row(bill)).join("") : "" // Original function with orderBillsByDate() function
+    // Alternative function
+    /*if (data && data.length) {
+      data.sort(function (d1, d2) {
+        return new Date(d2.date) - new Date(d1.date);
+      });
+      return data.map(bill => row(bill)).join("");
+    }
+    return "";*/
+}
+
+export default ({data: bills, loading, error}) => {
+
+    const modal = () => (`
     <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -43,13 +51,13 @@ export default ({ data: bills, loading, error }) => {
     </div>
   `)
 
-  if (loading) {
-    return LoadingPage()
-  } else if (error) {
-    return ErrorPage(error)
-  }
-  
-  return (`
+    if (loading) {
+        return LoadingPage()
+    } else if (error) {
+        return ErrorPage(error)
+    }
+
+    return (`
     <div class='layout'>
       ${VerticalLayout(120)}
       <div class='content'>
@@ -77,5 +85,5 @@ export default ({ data: bills, loading, error }) => {
       </div>
       ${modal()}
     </div>`
-  )
+    )
 }
