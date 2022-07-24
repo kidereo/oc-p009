@@ -171,7 +171,7 @@ describe('Given I am connected as an Admin', () => {
             });
 
             /**
-             * New code to pass the set as described.
+             * New code to pass the test as described.
              */
             //First, set this model to access getByTestId() in the cards DOM for open-xxxx test-id.
             document.body.innerHTML = cards(bills);
