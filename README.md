@@ -12,8 +12,14 @@ Développeur d'application - JavaScript React
 2. Bug report - Login: Erroneous copy/paste of `e.target.querySelector()` inside `handleSubmitAdmin()` function. Fix: Changed selectors to `input[data-testid="admin-email-input"]` and `input[data-testid="admin-password-input"]`. 
 3. Bug Hunt - Bills: Missing file extension validation. Fix: Added `if() else` inspection inside `handleChangeFile()` function in `./src/containers/NewBill.js`.
 4. Bug Hunt - Dashboard: Missing dropdown state determination. Fix: Added `dropdownState` property in `./src/containers/Dashboard.js` to determine if the dropdown is unfurled and execute code in the `handleShowTickets()` function. Attention: At least 3 tests in the `Given I am connected as an Admin` suite could fail due to failure to pass appropriate `getByTestId()` in relevant DOMs. These have been fixed in `./src/__tests__/Dashboard.js` and prefixed with `//TEST EDITED AFTER [Bug Hunt] - Dashboard RESOLUTION`.
-5. Ajout de tests unitaires et d'intégration
-    1. Bills: The first test is missing the `expect` statement. Fix: Verify that the `windowIcon` is visible and that it has `"active-icon"` class added.
+5. Add unit and integration tests
+    1. Block views/Bills: The first test is missing the `expect` statement. Fix: Verify that the `windowIcon` is visible and that it has `"active-icon"` class added.
+    2. Block container/Bills: 
+        1. Get statement coverage for `Bills.js` to 80%. Fix: Added 5 extra tests to check the `Bills` functionalities.
+        2. Add integration test to GET bills. Fix: In progress.
+    3. Block container/NewBill: 
+        1. Get statement coverage for `NewBills.js` to 80%. Fix: In progress.
+        2. Add integration test to POST a new bill. Fix: In progress.
 ## Comment lancer l'application en local ?
 
 ### étape 1 - Lancer le backend :

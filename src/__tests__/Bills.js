@@ -5,10 +5,13 @@
 import {screen, waitFor} from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import {bills} from "../fixtures/bills.js";
-import {ROUTES_PATH} from "../constants/routes.js";
+import {ROUTES, ROUTES_PATH} from "../constants/routes";
 import {localStorageMock} from "../__mocks__/localStorage.js";
-
 import router from "../app/Router.js";
+import Bills from "../containers/Bills";
+import userEvent from "@testing-library/user-event";
+import DashboardUI from "../views/DashboardUI";
+import mockStore from "../__mocks__/store";
 
 describe("Given I am connected as an employee", () => {
     describe("When I am on Bills Page", () => {
@@ -41,5 +44,105 @@ describe("Given I am connected as an employee", () => {
             const datesSorted = [...dates].sort(antiChrono);
             expect(dates).toEqual(datesSorted);
         })
-    })
-})
+    });
+
+    /**
+     * Additional tests to check the Bills functionalities.
+     */
+    describe("When I am on the Bills page and it's loading", () => {
+        test("Then the Loading page should be rendered", () => {
+            Object.defineProperty(window, "localStorage", {value: localStorageMock});
+            window.localStorage.setItem("user", JSON.stringify({
+                type: "Employee"
+            }));
+
+            document.body.innerHTML = BillsUI({loading: true});
+            expect(screen.getAllByText("Loading...")).toBeTruthy();
+        });
+    });
+
+    describe("When I am on the Bills page but the back-end sends an error message", () => {
+        test("Then the Error page should be rendered", () => {
+            Object.defineProperty(window, "localStorage", {value: localStorageMock});
+            window.localStorage.setItem("user", JSON.stringify({
+                type: "Employee"
+            }));
+
+            document.body.innerHTML = BillsUI({error: "An error message"});
+            expect(screen.getAllByText("Erreur")).toBeTruthy();
+        })
+    });
+
+    describe("When I am on the Bills page but there are no bills", () => {
+        test("Then the bills table (rows) should be empty", () => {
+            Object.defineProperty(window, "localStorage", {value: localStorageMock});
+            window.localStorage.setItem("user", JSON.stringify({
+                type: "Employee"
+            }));
+
+            //Pass an empty bills array to the simulated page.
+            document.body.innerHTML = BillsUI({data: []});
+
+            //Expect no <<Justificatif>> (eye) icons to be there.
+            const iconEye = screen.queryByTestId("icon-eye");
+            expect(iconEye).toBeNull();
+        })
+    });
+
+    describe("When I am on the Bills page and I click on the <<Nouvelle note de frais>> button", () => {
+        test("Then a new <<Envoyer une note de frais>> page should open", () => {
+            Object.defineProperty(window, "localStorage", {value: localStorageMock});
+            window.localStorage.setItem("user", JSON.stringify({
+                type: "Employee"
+            }));
+            document.body.innerHTML = BillsUI({data: bills});
+            const store = null;
+            const onNavigate = (pathname) => {
+                document.body.innerHTML = ROUTES({pathname})
+            };
+            const allBills = new Bills({
+                document, onNavigate, store, bills, localStorage: window.localStorage
+            });
+
+            const handleClickNewBill = jest.fn(allBills.handleClickNewBill);
+            const btnNewBill = screen.getByTestId("btn-new-bill");
+            btnNewBill.addEventListener("click", handleClickNewBill);
+
+            userEvent.click(btnNewBill);
+            expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
+        });
+    });
+
+    describe("When I am on the Bills page and I click on the <<Justificatif>> (eye) icon", () => {
+        test("Then a <<Justificatif>> modal should open", () => {
+            Object.defineProperty(window, "localStorage", {value: localStorageMock});
+            window.localStorage.setItem("user", JSON.stringify({
+                type: "Employee"
+            }));
+            document.body.innerHTML = BillsUI({data: bills});
+            const store = null;
+            const onNavigate = (pathname) => {
+                document.body.innerHTML = ROUTES({pathname})
+            };
+            const allBills = new Bills({
+                document, onNavigate, store, bills, localStorage: window.localStorage
+            });
+
+            //Mock bootstrap functionality in Jest testing or the test will fail.
+            $.fn.modal = jest.fn();
+
+            const iconEye = screen.getAllByTestId("icon-eye")[0];
+            const handleClickIconEye = jest.fn(() =>
+                allBills.handleClickIconEye(iconEye)
+            );
+            iconEye.addEventListener("click", handleClickIconEye);
+
+            userEvent.click(iconEye);
+            expect(handleClickIconEye).toHaveBeenCalled();
+
+            const modal = document.getElementById("modaleFile");
+            expect(modal).toBeTruthy();
+        });
+    });
+});
+
