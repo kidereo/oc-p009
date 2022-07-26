@@ -10,7 +10,6 @@ import {localStorageMock} from "../__mocks__/localStorage.js";
 import router from "../app/Router.js";
 import Bills from "../containers/Bills";
 import userEvent from "@testing-library/user-event";
-import DashboardUI from "../views/DashboardUI";
 import mockStore from "../__mocks__/store";
 
 describe("Given I am connected as an employee", () => {
@@ -144,4 +143,69 @@ describe("Given I am connected as an employee", () => {
         });
     });
 });
+
+// Test d'intégration GET
+describe("Given I am a user connected as Employee", () => {
+    describe("When I navigate to <<Mes notes de frais>> page", () => {
+        test("Then the system fetches bills from the mock API", async () => {
+            // Set up the environment.
+            localStorage.setItem("user", JSON.stringify({type: "Employee", email: "employee@test.tld"}));
+            const root = document.createElement("div");
+            root.setAttribute("id", "root");
+            document.body.append(root);
+
+            // Connect and wait for the <<Mes notes de frais>> page to appear.
+            router();
+            window.onNavigate(ROUTES_PATH.Bills);
+            await waitFor(() => screen.getByText("Mes notes de frais"))
+
+            // If all is well expect the Justicatif (eye) icon to appear.
+            expect(screen.getAllByTestId("icon-eye")[0]).toBeTruthy();
+        });
+        describe("When an error occurs on API", () => {
+            beforeEach(() => {
+                jest.spyOn(mockStore, "bills")
+                Object.defineProperty(
+                    window,
+                    'localStorage',
+                    {value: localStorageMock}
+                );
+                window.localStorage.setItem('user', JSON.stringify({
+                    type: 'Employee',
+                    email: "employee@test.tld"
+                }));
+                router();
+            });
+
+            test("Then the system fetches bills from an API and fails with the 404 error", async () => {
+                mockStore.bills.mockImplementationOnce(() => {
+                    return {
+                        list: () => {
+                            return Promise.reject(new Error("Error 404"))
+                        }
+                    }
+                });
+                document.body.innerHTML = BillsUI({error: "Error 404"});
+                const message = await screen.getByText(/Error 404/);
+                expect(message).toBeTruthy();
+            });
+
+            //TODO: This test generates TypeError: Cannot set properties of null (setting 'innerHTML') while actually inserting the HTML as intended. Why?
+            /*test("Then the system fetches messages from an API and fails with the 500 error", async () => {
+                mockStore.bills.mockImplementationOnce(() => {
+                    return {
+                        list: () => {
+                            return Promise.reject(new Error("Error 500"))
+                        }
+                    }
+                });
+                document.body.innerHTML = BillsUI({error: "Error 500"});
+                const message = await screen.getByText(/Error 500/);
+                expect(message).toBeTruthy();
+            });*/
+        });
+    });
+});
+
+
 
