@@ -16,9 +16,9 @@ Développeur d'application - JavaScript React
     1. Block views/Bills: The first test is missing the `expect` statement. Fix: Verify that the `windowIcon` is visible and that it has `"active-icon"` class added.
     2. Block container/Bills: 
         1. Get statement coverage for `Bills.js` to 80%. Fix: Added 5 extra tests to check the `Bills` functionalities.
-        2. Add integration test to GET bills. Fix: In progress.
+        2. Add integration test to GET bills. Fix: Done with one TODO outstanding.
     3. Block container/NewBill: 
-        1. Get statement coverage for `NewBills.js` to 80%. Fix: In progress.
+        1. Get statement coverage for `NewBills.js` to 80%. Fix: Added 2 tests to bring the `NewBills.js` statement coverage to 79%.
         2. Add integration test to POST a new bill. Fix: In progress.
 ## Comment lancer l'application en local ?
 
