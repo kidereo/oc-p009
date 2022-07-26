@@ -138,10 +138,9 @@ describe("Given I am connected as an employee", () => {
             iconEye.addEventListener("click", handleClickIconEye);
 
             userEvent.click(iconEye);
-            expect(handleClickIconEye).toHaveBeenCalled();
 
-            const modal = document.getElementById("modaleFile");
-            expect(modal).toBeTruthy();
+            expect(handleClickIconEye).toHaveBeenCalled();
+            expect(screen.getAllByText("Justificatif")).toBeTruthy();
         });
     });
 });
