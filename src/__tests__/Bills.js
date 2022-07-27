@@ -144,7 +144,9 @@ describe("Given I am connected as an employee", () => {
     });
 });
 
-// Test d'intégration GET
+/**
+ * GET Integration Test.
+ */
 describe("Given I am a user connected as Employee", () => {
     describe("When I navigate to <<Mes notes de frais>> page", () => {
         test("Then the system fetches bills from the mock API", async () => {
@@ -174,7 +176,6 @@ describe("Given I am a user connected as Employee", () => {
                     type: 'Employee',
                     email: "employee@test.tld"
                 }));
-                router();
             });
 
             test("Then the system fetches bills from an API and fails with the 404 error", async () => {
@@ -190,8 +191,7 @@ describe("Given I am a user connected as Employee", () => {
                 expect(message).toBeTruthy();
             });
 
-            //TODO: This test generates TypeError: Cannot set properties of null (setting 'innerHTML') while actually inserting the HTML as intended. Why?
-            /*test("Then the system fetches messages from an API and fails with the 500 error", async () => {
+            test("Then the system fetches messages from an API and fails with the 500 error", async () => {
                 mockStore.bills.mockImplementationOnce(() => {
                     return {
                         list: () => {
@@ -202,7 +202,7 @@ describe("Given I am a user connected as Employee", () => {
                 document.body.innerHTML = BillsUI({error: "Error 500"});
                 const message = await screen.getByText(/Error 500/);
                 expect(message).toBeTruthy();
-            });*/
+            });
         });
     });
 });
