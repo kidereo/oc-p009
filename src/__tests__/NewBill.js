@@ -12,6 +12,7 @@ import userEvent from "@testing-library/user-event";
 import mockStore from "../__mocks__/store";
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
+import Store from "../app/Store";
 
 
 describe("Given I am connected as an employee", () => {
@@ -77,5 +78,46 @@ describe("Given I am connected as an employee", () => {
             expect(fileInput.files[0].name).toBe('receipt.jpg');
         })
     });
-
 });
+
+/**
+ * POST Integration Test.
+ */
+describe("Given I am connected as an employee", () => {
+    describe("When I add a new bill", () => {
+        test("Then the system should POST it", async () => {
+            const bill = {
+                email: "employee@test.tld",
+                type: "Services en ligne",
+                name: "Test Facture Free Mobile",
+                amount: 15.99,
+                date: "2012/01/26",
+                vat: 19.6,
+                pct: 19.6,
+                commentary: "Submitted",
+                fileUrl: "https://test.storage.tld/assets/images",
+                fileName: "facturefreemobile.jpeg",
+                status: 'pending',
+                commentAdmin: ""
+            };
+
+            jest.mock('../app/Store');
+            Store.bill = () => ({bill, post: jest.fn().mockResolvedValue()});
+
+            const getSpy = jest.spyOn(Store, "bill");
+            const posted = Store.bill(bill);
+            expect(getSpy).toHaveBeenCalledTimes(1);
+            expect(posted.bill).toEqual(bill);
+        })
+    })
+});
+
+
+
+
+
+
+
+
+
+

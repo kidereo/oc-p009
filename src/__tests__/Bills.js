@@ -159,14 +159,14 @@ describe("Given I am a user connected as Employee", () => {
             // Connect and wait for the <<Mes notes de frais>> page to appear.
             router();
             window.onNavigate(ROUTES_PATH.Bills);
-            await waitFor(() => screen.getByText("Mes notes de frais"))
+            await waitFor(() => screen.getByText("Mes notes de frais"));
 
             // If all is well expect the Justicatif (eye) icon to appear.
             expect(screen.getAllByTestId("icon-eye")[0]).toBeTruthy();
         });
         describe("When an error occurs on API", () => {
             beforeEach(() => {
-                jest.spyOn(mockStore, "bills")
+                jest.spyOn(mockStore, "bills");
                 Object.defineProperty(
                     window,
                     'localStorage',

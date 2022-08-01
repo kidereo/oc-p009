@@ -19,7 +19,7 @@ Développeur d'application - JavaScript React
         2. Add integration test to GET bills. Fix: Added a dedicated `GET Integration Test` suite.
     3. Block container/NewBill: 
         1. Get statement coverage for `NewBills.js` to 80%. Fix: Added 2 tests to bring the `NewBills.js` statement coverage to 79%.
-        2. Add integration test to POST a new bill. Fix: In progress.
+        2. Add integration test to POST a new bill. Fix: Added a dedicated `POST Integration Test` suite.
 ## Comment lancer l'application en local ?
 
 ### étape 1 - Lancer le backend :
