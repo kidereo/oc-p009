@@ -20,8 +20,10 @@ Développeur d'application - JavaScript React
     3. Block container/NewBill: 
         1. Get statement coverage for `NewBills.js` to 80%. Fix: Added 2 tests to bring the `NewBills.js` statement coverage to 79%.
         2. Add integration test to POST a new bill. Fix: Added a dedicated `POST Integration Test` suite.
-6. Test E2E - Parcours Employé: Write up the tests. Fix: [See Plan_de_tests_End-To-End_(Employee).pdf](./src/assets/documents/Plan_de_tests_End-To-End_(Employee).pdf)
+6. Test E2E - Parcours Employé: Write up the tests. Fix: See [Plan_de_tests_End-To-End_(Employee).pdf](./src/assets/documents/Plan_de_tests_End-To-End_(Employee).pdf)
 
+## Jest console report
+![Jest console report](./src/assets/images/jest_console_report.png)
 
 ## Comment lancer l'application en local ?
 
